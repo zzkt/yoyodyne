@@ -19,7 +19,7 @@ The template and workflow is build upon  [[https://amyfare.ca/files/simple_invoi
 
 * Template variables
 
-The source file is text in YAML format. The following variables and their values are substituted into the invoice (note that the ’from’ fields are hardcoded for now)
+The source file is text in YAML format. The following variables and their values are substituted into the invoice (note that the ’from’ details are hardcoded for now)
 
 | invoice-number                             |                               |
 | invoice-date                               |                               |
@@ -37,24 +37,22 @@ invoice lines itemizing products or services can be included as part of a =servi
 | total       | line total including any VAT & discounts |
 | details     | (not used)                               |
 
-
 The subtotal, taxes and invoice total
 
 | invoice-subtotal |
 | invoice-VAT      |
 | invoice-total    |
 
+If required, the invoice can include a line about intra-community supply (for 0% VAT between EU entities) by setting =eu-zero= to =true= or =false=
+
+| inside-eu | (unused)                                    |
+| eu-zero   | will add note about “0% VAT” if set to =true= |
+
 payment details (only configured for SEPA bank transfers)
 
 | account-name |
 | IBAN         |
 | BIC          |
-
- If required, the invoice can include a line about intra-community supply (for 0% VAT between EU entities) by setting =eu-zero= to =true= or =false=
-
-| inside-eu | (unused)                                    |
-| eu-zero   | will add note about “0% VAT” if set to =true= |
-
 
 Adjust some of the typography and layout settings
 
