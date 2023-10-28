@@ -1,0 +1,46 @@
+---
+invoice-number: 20-A0091
+invoice-date: 2020-11-11
+invoice-due: 2030-11-11
+
+invoice-to: Erika Mustermann
+address-1: Musterallee 1
+address-2: 12345 Musterstadt
+address-3: Germany
+address-4:
+VAT-id: DE837566332
+
+# Products & services rendered
+service:
+- description: Miscellaneous aerospace supplies
+  quantity:    7
+  unit-price:  320.33
+  vat-rate:    19
+  total:       2,668.35
+  details:
+- description: Tristero System installation and callibration
+  quantity:    1pc
+  unit-price:  7,120.00
+  vat-rate:    19
+  total:       8,472.80
+  details:
+
+# Invoice totals
+invoice-subtotal: 9,362.31
+invoice-VAT:      1,778.84
+invoice-total:   11,141.15
+
+# payment details
+account-name: Yoyodyne Inc
+IBAN: EV27183413
+BIC: EVXXX4
+
+# inside EU and/or 0% VAT rate notice?
+inside-eu: true
+eu-zero:   false
+
+# Invoice settings
+currency: EUR
+lang: en-GB
+
+---

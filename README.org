@@ -1,0 +1,110 @@
+# -*- mode: org;  coding: utf-8; -*-
+#+title:
+[[file:logo.png]]
+
+* Invoice template
+
+A simple script  for generating pdf invoices from text files.
+
+The template and workflow is build upon  [[https://amyfare.ca/files/simple_invoice_template.tex][LaTeX Simple Invoice Template]] by Amy Fare (CC BY 4.0) and  [[https://github.com/mrzool/invoice-boilerplate][invoice-boilerplate]] by Mattia Tezzele (GPL2)
+
+* Requirements
+- an XeLaTeX environment such as [[https://tug.org/texlive/][TeX Live]]or [[https://miktex.org/][MiKTeX]]
+- [[https://pandoc.org/][pandoc]]
+- python or guile (or possibly an other scheme)
+
+* Instructions for use
+ - copy/edit =invoice-example.yaml= (invoice file must end in =.yaml=)
+ - generate  pdf via =./generate-invoice.py invoice.yaml=
+
+* Template variables
+
+The source file is text in YAML format. The following variables and their values are substituted into the invoice (note that the ’from’ fields are hardcoded for now)
+
+| invoice-number                             |                               |
+| invoice-date                               |                               |
+| invoice-due                                |                               |
+| invoice-to                                 | name of recipient             |
+| address-1, address-2, address-3, address-4 | address can use up to 4 lines |
+| VAT-id                                     |                               |
+
+invoice lines itemizing products or services can be included as part of a =service= list
+
+| description | description of the item                  |
+| quantity    |                                          |
+| unit-price  |                                          |
+| vat-rate    |                                          |
+| total       | line total including any VAT & discounts |
+| details     | (not used)                               |
+
+
+The subtotal, taxes and invoice total
+
+| invoice-subtotal |
+| invoice-VAT      |
+| invoice-total    |
+
+payment details (only configured for SEPA bank transfers)
+
+| account-name |
+| IBAN         |
+| BIC          |
+
+ If required, the invoice can include a line about intra-community supply (for 0% VAT between EU entities) by setting =eu-zero= to =true= or =false=
+
+| inside-eu | (unused)                                    |
+| eu-zero   | will add note about “0% VAT” if set to =true= |
+
+
+Adjust some of the typography and layout settings
+
+| seriffont | e.g. Hoefler Text                                 |
+| sansfont  | e.g. Fira Sans                                    |
+| fontsize  | e.g. 10pt                                         |
+| geometry  | e.g. left=43mm, right=43mm, top=51mm, bottom=17mm |
+
+* Example
+
+#+BEGIN_SRC yaml
+---
+invoice-number: 20-A0091
+invoice-date: 2020-11-11
+invoice-due: 2030-11-11
+
+invoice-to: Erika Mustermann
+address-1: Musterallee 23
+address-2: 54321 Musterstadt
+address-3: Germany
+address-4:
+VAT-id: DE837566332
+
+# Products & services rendered
+service:
+- description: Miscellaneous aerospace supplies
+  quantity:    7
+  unit-price:  320.33
+  vat-rate:    19
+  total:       2668.35
+  details:
+- description: Tristero System installation and callibration
+  quantity:    1pc
+  unit-price:  7120.00
+  vat-rate:    19
+  total:       8472.80
+  details:
+
+# Invoice totals
+invoice-subtotal: 9362.31
+invoice-VAT:      1778.84
+invoice-total:   11141.15
+
+# payment details
+account-name: Yoyodyne Inc
+IBAN: EV27183413
+BIC: EVXXX4
+
+# inside EU and/or 0% VAT rate notice?
+inside-eu: true
+eu-zero:   false
+---
+#+END_SRC

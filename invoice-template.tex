@@ -1,0 +1,138 @@
+% !TEX TS-program = xelatex
+% !TEX encoding = UTF-8 Unicode
+
+%% Creator: nik gaffney <nik@fo.am>
+%% Created: 2023-10-23
+%% Copyright ©️ 2023 FoAM oü
+%% SPDX-License-Identifier: GPL-3.0-or-later
+
+%% Invoice template based on
+%%  LaTeX Simple Invoice Template by Amy Fare (CC BY 4.0) and
+%%  invoice-boilerplate by Mattia Tezzele (GPL2)
+
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[colorlinks]{hyperref}
+\usepackage[left=23mm, right=23mm, top=23mm, bottom=17mm]{geometry}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{ragged2e}
+\usepackage{array}
+\usepackage{fontspec}
+\usepackage[table]{xcolor}
+
+\hypersetup{
+  urlcolor=blue
+}
+
+% Font(s)
+\setmainfont[Ligatures={Common, Rare, Discretionary, Required, Contextual},
+  BoldFont={Fira Sans Bold},
+  ItalicFont={Fira Sans Book Italic}]
+            {Fira Sans Book}
+
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+\begin{document}
+
+\thispagestyle{empty}
+
+\begin{tabularx}{\textwidth}{l X l}
+  \hspace{-8pt}
+  \multirow{3}{*}  & \hskip12pt\multirow{3}{*} &
+
+  % Invoice no. and Date
+  {\begin{tabular}{r l }
+      \huge{Invoice No:} & \huge{$invoice-number$} \\
+      & \\
+      Issue Date: & $invoice-date$ \\
+      Due Date:   & $invoice-due$ \\
+  \end{tabular}}\hspace{-6pt} \\
+
+ \hspace{-2.1cm}\includegraphics[height=2cm]{logo.png} & \\
+
+  \textbf{Yoyodyne Inc} \\
+  VAT ID: AT8375614432 & \\
+  &  \\
+  1640 Riverside Drive & \\
+  Hill Valley, CA & \\
+  USA & \\
+
+\end{tabularx}
+
+\vspace{0.5 cm}
+
+%% Recipient
+
+\begin{tabularx}{\textwidth}{l X  l}
+  \hspace{-8pt} \multirow{5}{*} & \hskip12pt\multirow{5}{*} & \hspace{-6pt} \\
+
+  \textbf{$invoice-to$} & \\
+  VAT ID: $VAT-id$ & \\
+  $if(address-1)$ $address-1$ & \\ $endif$
+  $if(address-2)$ $address-2$ & \\ $endif$
+  $if(address-3)$ $address-3$ & \\ $endif$
+  $if(address-4)$ $address-4$ & \\ $endif$
+
+\end{tabularx}
+
+\vspace{0.5 cm}
+
+%% Table of fees
+\begin{tabularx}{\linewidth}{p{8cm} X X r r}
+  \rowcolor[HTML]{dfdfff}
+  & & & &\\[0.25ex]
+  \rowcolor[HTML]{dfdfff}
+           {\bf{Description}} &
+           \centering{\bf{Quantity}} &
+           \centering{\bf{Unit price}} &
+           \centering{\bf{VAT rate}} &
+           \bf Net amount\\[2.5ex]
+
+           % sales details
+           $for(service)$
+           \rowcolor[HTML]{efefff} & & & & \\ \rowcolor[HTML]{efefff}
+           % description
+           $service.description$ &
+           % quantity
+           \centering $service.quantity$ &
+           % unit price
+           \centering $service.unit-price$ &
+           % VAT rate
+           \centering $service.vat-rate$\% &
+           % NET amount
+           $service.total$ \texteuro\\[7.5ex]
+           % \hline
+           $endfor$
+
+           & & & & \\  & & &
+           \bf \small{Subtotal} & $invoice-subtotal$ \texteuro\\
+           & & & & \\ & & &
+           \bf \small{VAT $if(eu-zero)$ 0\%* $endif$} & $invoice-VAT$ \texteuro\\ [2.5ex]
+
+           & &  & \cellcolor[HTML]{dfdfff} & \cellcolor[HTML]{dfdfff} \\ & &  & \cellcolor[HTML]{dfdfff}
+
+           \bf \large{Total} & \cellcolor[HTML]{dfdfff}
+           \large{$invoice-total$ \texteuro} \\ [2.2ex]
+
+\end{tabularx}
+
+\vfill{}
+
+\textbf{Payment instructions} \\ [1.2ex]
+
+\small{Please add the invoice number to your payment description.} \\
+
+\small{Account holder: $account-name$}
+
+\small{IBAN: $IBAN$}
+
+\small{BIC/SWIFT: $BIC$}  \\ [1.2ex]
+
+$if(eu-zero)$
+% To include if applicable
+\small{*The purchase is liable to Intra-Community supply 0\% Reverse charge.}
+$endif$
+
+\end{document}
